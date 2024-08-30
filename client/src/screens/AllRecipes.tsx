@@ -7,8 +7,6 @@ import {
   Sheet,
   Typography,
 } from '@mui/joy';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { deleteRecipes, getAllRecipes } from '../API';
 import { RecipeDataWithID } from '../types';
 import Loader from './Loader';
 import Error from './Error';
@@ -16,7 +14,9 @@ import { useMemo, useState } from 'react';
 
 import { useNavigate } from '@tanstack/react-router';
 import DisplayCard from './DisplayCard';
-import EditForm from './EditForm';
+import { useFetchAll } from '../hooks/useFetchAll.ts';
+import { useDelete } from '../hooks/useDelete.ts';
+import EditForm from './form/EditForm.tsx';
 
 const initObject = {
   id: 0,
@@ -41,23 +41,11 @@ export default function AllRecipes() {
   const [editingData, setEditingData] = useState(initObject);
   const [filter, setFilter] = useState('');
 
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const mutation = useMutation({
-    mutationFn: deleteRecipes,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['allRecipes'] });
-    },
-  });
+  const mutation = useDelete();
 
-  const { data, isLoading, isError } = useQuery<{
-    message: RecipeDataWithID[];
-    status: string;
-  }>({
-    queryKey: ['allRecipes'],
-    queryFn: getAllRecipes,
-  });
+  const { data, isLoading, isError } = useFetchAll();
 
   const sortedData = useMemo(() => {
     if (sort) {

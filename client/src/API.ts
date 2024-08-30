@@ -3,16 +3,16 @@ import { RecipeData, RecipeDataWithID } from './types';
 
 const API_URL = 'http://localhost:8000/recipes';
 
-export const getAllRecipes = async () => {
+export const getAllFromDb = async () => {
   const response = await axios.get(API_URL);
   return response.data;
 };
-export const deleteRecipes = async ({ id }: { id: number }) => {
+export const deleteFromDb = async ({ id }: { id: number }) => {
   const response = await axios.delete(API_URL + '/' + id);
   return response.data;
 };
 
-export const createRecipe = async ({
+export const createInDb = async ({
   title,
   steps,
   ingredients,
@@ -25,7 +25,7 @@ export const createRecipe = async ({
   return response.data;
 };
 
-export const updateRecipe = async ({
+export const updateInDb = async ({
   title,
   steps,
   ingredients,

@@ -1,11 +1,8 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-import { FormEvent, SetStateAction, useState } from 'react';
+import { FormEvent, SetStateAction } from 'react';
 import DumbForm from './DumbForm';
-
 import DOMPurify from 'dompurify';
 import { RecipeData, SignInFormElement } from '../../types';
-import { updateRecipe } from '../../API';
+import { useUpdate } from '../../hooks/useUpdate';
 
 export default function EditForm({
   data,
@@ -14,19 +11,16 @@ export default function EditForm({
   data: RecipeData & { id: number };
   setOpen: React.Dispatch<SetStateAction<boolean>>;
 }) {
-  const queryClient = useQueryClient();
-  const [alert, setAlert] = useState('');
+  let alert = '';
+  const mutation = useUpdate();
 
-  const mutation = useMutation({
-    mutationFn: updateRecipe,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['allRecipes'] });
-      setOpen(false);
-    },
-    onError: () => {
-      setAlert('There was a problem');
-    },
-  });
+  if (mutation.isError) {
+    alert = 'Error: ' + mutation.error.message;
+  }
+  if (mutation.isSuccess) {
+    alert = 'Saved!';
+    setOpen(false);
+  }
 
   function handleSubmit(event: FormEvent<SignInFormElement>) {
     event.preventDefault();

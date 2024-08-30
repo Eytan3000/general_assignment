@@ -1,12 +1,10 @@
-import { useMutation } from '@tanstack/react-query';
-import { useState } from 'react';
 import DOMPurify from 'dompurify';
 import DumbForm from './DumbForm';
 import { SignInFormElement } from '../../types';
-import { createRecipe } from '../../API';
+import { useCreate } from '../../hooks/useCreate';
 
 export default function CreateForm() {
-  const [alert, setAlert] = useState('');
+  let alert = '';
 
   const data = {
     title: '',
@@ -14,15 +12,14 @@ export default function CreateForm() {
     steps: '',
   };
 
-  const mutation = useMutation({
-    mutationFn: createRecipe,
-    onSuccess: () => {
-      setAlert('Saved!');
-    },
-    onError: () => {
-      setAlert('There was a problem');
-    },
-  });
+  const mutation = useCreate();
+
+  if (mutation.isError) {
+    alert = 'Error: ' + mutation.error.message;
+  }
+  if (mutation.isSuccess) {
+    alert = 'Saved!';
+  }
 
   function handleSubmit(event: React.FormEvent<SignInFormElement>) {
     event.preventDefault();
