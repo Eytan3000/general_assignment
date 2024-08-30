@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Card,
   Input,
   Modal,
   ModalClose,
@@ -10,12 +9,14 @@ import {
 } from '@mui/joy';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { deleteRecipes, getAllRecipes } from '../API';
-import { RecipeData } from '../types';
+import { RecipeDataWithID } from '../types';
 import Loader from './Loader';
 import Error from './Error';
 import { useMemo, useState } from 'react';
-import EditingForm from './EditingForm';
+
 import { useNavigate } from '@tanstack/react-router';
+import DisplayCard from './DisplayCard';
+import EditForm from './EditForm';
 
 const initObject = {
   id: 0,
@@ -26,11 +27,11 @@ const initObject = {
 
 const allElementsTitle = 'All Recipes';
 
-const sortByTitle = (array: RecipeData[]) => {
+const sortByTitle = (array: RecipeDataWithID[]) => {
   const newArray = [...array]; // to avoide mutating original
   return newArray.sort((a, b) => a.title.localeCompare(b.title));
 };
-const filterByTitle = (array: RecipeData[], filter: string) => {
+const filterByTitle = (array: RecipeDataWithID[], filter: string) => {
   return array.filter((el) => el.title.includes(filter));
 };
 
@@ -51,7 +52,7 @@ export default function AllRecipes() {
   });
 
   const { data, isLoading, isError } = useQuery<{
-    message: RecipeData[];
+    message: RecipeDataWithID[];
     status: string;
   }>({
     queryKey: ['allRecipes'],
@@ -107,37 +108,15 @@ export default function AllRecipes() {
             </div>
           </Box>
 
-          {filteredData.map((recipe) => {
-            return (
-              <Card sx={{ p: 5, minWidth: '400px' }} key={recipe.id}>
-                <Typography level="h4">{recipe.title}</Typography>
-                <Typography level="body-md">
-                  Ingredients: {recipe.ingredients}
-                </Typography>
-                <Typography level="body-sm">Steps: {recipe.steps}</Typography>
-
-                <Button
-                  variant="plain"
-                  onClick={() => {
-                    setEditingData({
-                      id: recipe.id,
-                      title: recipe.title,
-                      ingredients: recipe.ingredients,
-                      steps: recipe.steps,
-                    });
-                    setOpen(true);
-                  }}>
-                  Edit
-                </Button>
-                <Button
-                  onClick={() => handleDelete(recipe.id)}
-                  variant="plain"
-                  color="danger">
-                  delete
-                </Button>
-              </Card>
-            );
-          })}
+          {filteredData.map((recipe) => (
+            <DisplayCard
+              key={recipe.id}
+              data={recipe}
+              setEditingData={setEditingData}
+              setOpen={setOpen}
+              handleDelete={handleDelete}
+            />
+          ))}
         </Box>
 
         <Modal
@@ -159,7 +138,7 @@ export default function AllRecipes() {
               boxShadow: 'lg',
             }}>
             <ModalClose variant="plain" sx={{ m: 1 }} />
-            <EditingForm setOpen={setOpen} data={editingData} />
+            <EditForm setOpen={setOpen} data={editingData} />
           </Sheet>
         </Modal>
       </>

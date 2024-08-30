@@ -3,13 +3,28 @@ import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import Input from '@mui/joy/Input';
 import Stack from '@mui/joy/Stack';
+import { FormEvent } from 'react';
+import { RecipeData, SignInFormElement } from '../../types';
 
 const nameLabel = 'Title';
 const ingredientsLabel = 'ingredients';
 const stepsLabel = 'Steps';
 const buttonText = 'Save';
 
-export default function DumbForm() {
+export default function DumbForm({
+  handleSubmit,
+  data,
+  alert,
+}: {
+  handleSubmit: (e: FormEvent<SignInFormElement>) => void;
+  data: RecipeData;
+  alert: string;
+}) {
+
+  const steps = data.steps;
+  const title = data.title;
+  const ingredients = data.ingredients;
+
   return (
     <>
       <Stack

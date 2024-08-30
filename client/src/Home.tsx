@@ -1,6 +1,7 @@
 import { useNavigate } from '@tanstack/react-router';
 import { Box, Button, Divider, Typography } from '@mui/joy';
-import Form from './screens/Form';
+import CreateForm from './screens/form/CreateForm';
+
 
 const mainTitle = 'Recipes!';
 const secondaryTitle = 'One platform to rule them all.';
@@ -43,7 +44,7 @@ function Home() {
         <Typography level="h4" style={{ margin: 0 }}>
           {create}
         </Typography>
-        <Form />
+        <CreateForm />
       </Box>
     </>
   );

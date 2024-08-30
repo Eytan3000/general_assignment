@@ -54,7 +54,7 @@ Briefly describe what your project does, its purpose, and any unique aspects tha
 
 ### Running the Project
 
-Open your browser and navigate to `http://localhost:3000` to see the project in action.
+Open your browser and navigate to `http://localhost:5173` to see the project in action.
 
 ## Project Structure
 
