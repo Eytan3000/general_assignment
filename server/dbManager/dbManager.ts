@@ -233,7 +233,6 @@ import { recipeSchema } from '../utils/schemas';
 // // }
 // // --------------------------------------------------------------
 
-
 class DatabaseManager<T extends Record<string, any>> {
   private dataStore: Record<string, T>;
   private id: string;
@@ -247,7 +246,7 @@ class DatabaseManager<T extends Record<string, any>> {
 
   private validate(body: T) {
     const { error } = this.schema.validate(body);
-    if (error) throw new Error('Validation Error' + error);
+    if (error) throw new Error(error.details[0].message);
   }
 
   findAll() {
@@ -266,7 +265,12 @@ class DatabaseManager<T extends Record<string, any>> {
   }
 
   findByIdAndDelete(id: string) {
-    delete this.dataStore[id];
+    const item = this.dataStore[id];
+    if (item) {
+      delete this.dataStore[id];
+      return item;
+    }
+    return null;
   }
 
   create(body: T) {
@@ -285,4 +289,3 @@ export class Factory {
     return new DatabaseManager(recipeSchema);
   }
 }
-

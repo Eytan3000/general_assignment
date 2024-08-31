@@ -33,5 +33,12 @@ export default function EditForm({
     mutation.mutate(data);
   }
 
-  return <DumbForm handleSubmit={handleSubmit} alert={alert} data={data} />;
+  return (
+    <DumbForm
+      isLoading={mutation.isPending}
+      handleSubmit={handleSubmit}
+      alert={alert}
+      data={data}
+    />
+  );
 }

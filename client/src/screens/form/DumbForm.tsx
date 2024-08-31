@@ -15,12 +15,13 @@ export default function DumbForm({
   handleSubmit,
   data,
   alert,
+  isLoading,
 }: {
   handleSubmit: (e: FormEvent<SignInFormElement>) => void;
   data: RecipeData;
   alert: string;
+  isLoading: boolean;
 }) {
-
   const steps = data.steps;
   const title = data.title;
   const ingredients = data.ingredients;
@@ -67,7 +68,10 @@ export default function DumbForm({
             <Input defaultValue={steps} type="text" name="steps" />
           </FormControl>
 
-          <Button type="submit" sx={{ width: '100%', mt: 4 }}>
+          <Button
+            loading={isLoading}
+            type="submit"
+            sx={{ width: '100%', mt: 4 }}>
             {buttonText}
           </Button>
           {alert !== '' && <Alert>{alert}</Alert>}

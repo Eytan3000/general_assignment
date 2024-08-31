@@ -5,3 +5,4 @@ export const limiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
   message: 'Too many requests from this IP. Please try again later.',
 });
+
