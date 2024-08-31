@@ -17,7 +17,6 @@ export function sanitizeBody(body: any): any {
           : xss(body[prop]);
     }
   }
-  console.log('sanitized: ',sanitized) //removeEytan
 
   return sanitized;
 }

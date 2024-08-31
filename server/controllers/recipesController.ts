@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { Factory } from '../dbManager/dbManager';
-import Joi from 'joi';
 
 const Recipes = Factory.recipesRepository();
 
@@ -21,9 +20,9 @@ const handleError = (res: Response, err: unknown) => {
   });
 };
 
-const getAllRecipes = async (req: Request, res: Response) => {
+const getAllRecipes = (req: Request, res: Response) => {
   try {
-    const result = await Recipes.findAll();
+    const result = Recipes.findAll();
 
     res.status(200).json({
       status: 'success',
@@ -34,9 +33,9 @@ const getAllRecipes = async (req: Request, res: Response) => {
   }
 };
 
-const updateRecipe = async (req: Request, res: Response) => {
+const updateRecipe = (req: Request, res: Response) => {
   try {
-    const result = await Recipes.findByIdAndUpdate(req.params.id, req.body);
+    const result = Recipes.findByIdAndUpdate(req.params.id, req.body);
 
     if (result) {
       res.status(200).json({
@@ -54,9 +53,9 @@ const updateRecipe = async (req: Request, res: Response) => {
   }
 };
 
-const deleteRecipe = async (req: Request, res: Response) => {
+const deleteRecipe = (req: Request, res: Response) => {
   try {
-    const result = await Recipes.findByIdAndDelete(req.params.id);
+    const result = Recipes.findByIdAndDelete(req.params.id);
     if (result) {
       res.status(204).send(); // No content
     } else {
@@ -70,11 +69,9 @@ const deleteRecipe = async (req: Request, res: Response) => {
   }
 };
 
-const createRecipe = async (req: Request, res: Response) => {
+const createRecipe = (req: Request, res: Response) => {
   try {
-    console.log(req.body);
-
-    const result = await Recipes.create(req.body);
+    const result = Recipes.create(req.body);
     res.status(201).json({
       status: 'success',
       message: result,
