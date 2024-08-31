@@ -75,3 +75,21 @@ Briefly describe the structure of your project:
 ├── package.json
 └── README.md
 ```
+
+
+* all places that need to change:
+recipesRepository
+app.use('/recipes', recipesRouter);
+
+
+router
+  .route('/')
+  .get(recipesController.getAllRecipes)
+  .post(recipesController.createRecipe);
+
+router
+  .route('/:id')
+  .patch(recipesController.updateRecipe)
+  .delete(recipesController.deleteRecipe);
+
+schemas
