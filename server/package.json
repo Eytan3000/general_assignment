@@ -5,18 +5,17 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "build": "rimraf dist && npx tsc",
+    "build": "rimraf dist && npx tsc -p tsconfig.prod.json",
     "prestart": "npm run build",
-    "start": "node dist/index.js",
-    "predev": "npm run build",
-    "dev": "concurrently  \"tsc -w\"  \"nodemon dist/index.js\""
+    "start": "node dist/src/index.js",
+    "predev": "rimraf dist && npx tsc -p tsconfig.json",
+    "dev": "concurrently  \"tsc -w\"  \"nodemon dist/src/index.js\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@types/express": "^4.17.21",
-    "@types/jest": "^29.5.12",
     "@types/node": "^20.14.9",
     "concurrently": "^8.2.2",
     "cors": "^2.8.5",
@@ -36,6 +35,7 @@
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
+    "@types/jest": "^29.5.12",
     "@types/pg": "^8.11.6"
   }
 }

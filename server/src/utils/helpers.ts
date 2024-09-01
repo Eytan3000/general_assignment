@@ -21,4 +21,5 @@ export function sanitizeBody(body: any): any {
   return sanitized;
 }
 
-export const myUpper = (str: string) => str.toUpperCase();
+console.log(xss('<img src="xss" onerror="alert(1)">'));
+
