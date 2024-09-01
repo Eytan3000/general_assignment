@@ -14,9 +14,11 @@ export function sanitizeBody(body: any): any {
       sanitized[prop] =
         typeof body[prop] === 'object'
           ? sanitizeBody(body[prop])
-          : xss(body[prop]);
+           : xss(body[prop]);
     }
   }
 
   return sanitized;
 }
+
+export const myUpper = (str: string) => str.toUpperCase();
